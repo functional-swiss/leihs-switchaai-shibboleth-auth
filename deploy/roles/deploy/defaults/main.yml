@@ -1,8 +1,9 @@
-app_name: zhdk-aai-shibboleth-leihs-auth
+app_name: leihs-aai-shibboleth-auth
 app_dir: /{{app_name}}
-app_ruby_version: 2.6.6
+app_ruby_version: 2.7.2
 app_user: '{{app_name}}'
-
+ssl_certificate_file: /etc/ssl/certs/ssl-cert-snakeoil.pem
+ssl_certificate_key_file: /etc/ssl/private/ssl-cert-snakeoil.key
 
 apache2_modules:
   - expires

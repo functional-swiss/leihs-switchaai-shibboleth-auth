@@ -20,10 +20,9 @@
 
 - name: Add switch apt repo
   apt_repository:
-    repo: deb http://pkg.switch.ch/switchaai/debian stretch main
+    repo: deb http://pkg.switch.ch/switchaai/{{ansible_distribution | lower}} {{ansible_distribution_release}} main
     state: present
 
 - name: Install shibboleth
   apt:
     name: shibboleth
-

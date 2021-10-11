@@ -11,7 +11,6 @@
     #!/bin/bash
     set eux
     export PATH=$HOME/.rubies/ruby-{{app_ruby_version}}/bin:$PATH
-    which gem
     cd {{app_dir}}
     bundle install
   become: yes

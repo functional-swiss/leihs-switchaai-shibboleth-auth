@@ -1,10 +1,10 @@
-name: LEIHS/zhdk-aai-shibboleth-auth-system
 windows:
   2:
-    name: app
     command: |
-      bundle exec passenger start --port 4000
-  5:
+      # bundle exec ./phzh-ms-open-id-auth-system -c dev/config.yml
+  3:
     name: deploy
     command: |
-      # ansible-playbook -i ../leihs_v5/zhdk-inventory/aai-hosts deploy/deploy_play.yml --ssh-common-args '-o ProxyCommand="ssh -W %h:%p -q root@ci.zhdk.ch"'
+      # export INVENTORY_HOSTS_FILE=
+      # export TARGET_MACHINE=
+      # ansible-playbook -i $INVENTORY_HOSTS_FILE -l $TARGET_MACHINE deploy/deploy_play.yml

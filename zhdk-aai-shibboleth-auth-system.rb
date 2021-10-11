@@ -14,7 +14,7 @@ $logger.level = Logger::WARN
 ################################################################################
 ### options and config #########################################################
 ################################################################################
- 
+
 
 $config = YAML.load_file(
   File.expand_path('config.yml', File.dirname(__FILE__))
@@ -23,7 +23,7 @@ $config = YAML.load_file(
   c[:my_public_key] = OpenSSL::PKey.read(c[:my_public_key])
   c[:leihs_public_key] = OpenSSL::PKey.read(c[:leihs_public_key])
 end
- 
+
 ################################################################################
 ### the web app ################################################################
 ################################################################################
@@ -36,10 +36,10 @@ class AuthenticatorApp <  Sinatra::Base
   def html_layout
     Haml::Engine.new <<-HAML.strip_heredoc
       %html
-        %head 
-          %title ZHdK AAI-Shibboleth Leihs Authentication-System
+        %head
+          %title Leihs AAI-Shibboleth Authentication-System
       %body
-        %h1 ZHdK AAI-Shibboleth Leihs Authentication-System
+        %h1 Leihs AAI-Shibboleth Authentication-System
         = yield
     HAML
   end
@@ -62,7 +62,7 @@ class AuthenticatorApp <  Sinatra::Base
   ### error handling and error messages ########################################
 
   def expired_message sign_in_request_token
-    sign_in_request = JWT.decode sign_in_request_token, 
+    sign_in_request = JWT.decode sign_in_request_token,
       $config[:leihs_public_key], false, { algorithm: 'ES256' }
 
     <<-HTML.strip_heredoc
@@ -100,9 +100,9 @@ class AuthenticatorApp <  Sinatra::Base
   get '/' do
     html_layout.render do
     Haml::Engine.new(<<-HAML.strip_heredoc
-      %p 
-        See 
-        %a{href: '/Shibboleth.sso/Session'} 
+      %p
+        See
+        %a{href: '/Shibboleth.sso/Session'}
           %code /Shibboleth.sso/Session
      HAML
     ).render
@@ -122,10 +122,10 @@ class AuthenticatorApp <  Sinatra::Base
 
   get '/sign-in' do
 
-    begin 
+    begin
 
       sign_in_request_token = params[:token]
-      sign_in_request = JWT.decode sign_in_request_token, 
+      sign_in_request = JWT.decode sign_in_request_token,
         $config[:leihs_public_key], true, { algorithm: 'ES256' }
       email = sign_in_request.first["email"].presence.try(:downcase)
 
@@ -155,15 +155,15 @@ class AuthenticatorApp <  Sinatra::Base
 
   get '/callback' do
 
-    begin 
+    begin
 
-      token_data = JWT.decode(params[:token], 
+      token_data = JWT.decode(params[:token],
                               $config[:my_public_key], true, { algorithm: 'ES256'}) \
         .first.with_indifferent_access
 
       sign_in_request_token = token_data[:sign_in_request_token]
 
-      sign_in_request = JWT.decode sign_in_request_token, 
+      sign_in_request = JWT.decode sign_in_request_token,
         $config[:leihs_public_key], true, { algorithm: 'ES256' }
 
       raise 'Env var `mail` must be present in callback' unless @env['mail'].presence
@@ -188,12 +188,12 @@ class AuthenticatorApp <  Sinatra::Base
 
 
   get '/*' do
-    pass if /\/Shibboleth/ =~ request.path_info 
+    pass if /\/Shibboleth/ =~ request.path_info
     status 404
     html_layout.render do
       Haml::Engine.new(
         <<-HAML.strip_heredoc
-          %h2{ style: "color: red;"} Error 404 
+          %h2{ style: "color: red;"} Error 404
           %p The requested resource does not exist.
         HAML
       ).render
